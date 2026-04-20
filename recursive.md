@@ -375,26 +375,41 @@ To apply:
 Then **print the QR code** — pre-rendered, baked into this skill. Output the block below verbatim. Do NOT run `qrencode` at runtime; it's already done.
 
 ```
-[STATIC_QR_BLOCK_PLACEHOLDER — replace this line with the ASCII QR for the form URL]
+█████████████████████████████
+██ ▄▄▄▄▄ █   █▄▄▀▄ █ ▄▄▄▄▄ ██
+██ █   █ █ ▀▄ █▀██▀█ █   █ ██
+██ █▄▄▄█ █▀██▀▀█▄▄▀█ █▄▄▄█ ██
+██▄▄▄▄▄▄▄█▄▀▄█ █ █▄█▄▄▄▄▄▄▄██
+██▄ █▀ ▄▄█▀▀▀▄▀▀▄ ▀██▄▀ ▄ ▄██
+██ ▀ █ ▀▄ ▄█▀ ▄█▀▄▀▄█▀█▄ ▀███
+██  █▄▀█▄▀▄▀▄█▄ ▀▀ ▄▄█▀▄▄ ▄██
+████▄▄▀█▄▀ ▀▄█▀█▀▄▄▀▄  ▄ ▀███
+██▄▄█▄██▄█▀▀▄▄ ▀▄▄ ▄▄▄ ▄▄████
+██ ▄▄▄▄▄ █▀▀  ▄▄█▀ █▄█ ▀▀████
+██ █   █ █▄▄▄▀▀██▀▄   ▄▄ ▀▀██
+██ █▄▄▄█ █▀▀▀▄███▄█▄ ▀▀ ▀ ███
+██▄▄▄▄▄▄▄█▄███▄██▄██▄███▄▄▄██
+█████████████████████████████
 
-Apply directly: [FORM_LINK_PLACEHOLDER]
+Apply directly: https://tally.so/r/1A2xb1
 ```
 
-The QR sits directly under the join footer so it's captured in the same screenshot as the card. The form at `[FORM_LINK_PLACEHOLDER]` collects: screenshot upload, LinkedIn URL, WhatsApp number with country code. Admin reviews → adds to WhatsApp → intros.
+The QR sits directly under the join footer so it's captured in the same screenshot as the card. The form at `https://tally.so/r/1A2xb1` collects: screenshot upload, Recursive ID, LinkedIn URL, WhatsApp number with country code. Admin reviews → adds to WhatsApp → intros.
 
-> **Maintainer setup (do this once when shipping the skill):**
+> **Maintainer setup (done — update only if the form URL ever changes):**
 >
-> 1. Get the form URL.
-> 2. Generate the QR locally:
->    ```
->    brew install qrencode
->    qrencode -t ANSIUTF8 -m 2 "https://your-form-url" > /tmp/qr.txt
->    cat /tmp/qr.txt
->    ```
-> 3. Replace `[STATIC_QR_BLOCK_PLACEHOLDER]` above with the actual ASCII QR.
-> 4. Replace both `[FORM_LINK_PLACEHOLDER]` occurrences with the real URL.
+> Current form URL: `https://tally.so/r/1A2xb1`
 >
-> After that, every user who runs `/recursive` gets the same QR — no `qrencode` install needed on their machine.
+> To regenerate the QR after a URL change:
+> ```
+> brew install qrencode
+> qrencode -t UTF8 -m 2 "https://your-new-form-url" > /tmp/qr.txt
+> cat /tmp/qr.txt
+> ```
+>
+> Then replace the QR block above and both form-URL mentions (this file + README if present) with the new values. UTF8 (no ANSI) renders cleanly on light and dark terminal themes both.
+>
+> Every user who runs `/recursive` gets the same baked-in QR — no `qrencode` install needed on their machine.
 
 ---
 
