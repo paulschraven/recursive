@@ -8,15 +8,21 @@
 
 A Claude Code skill that scans your `~/.claude/` setup, asks four questions, and gives you a personalized card.
 
-6 archetypes. 4 dimensions. 1 ticket: your stack signature is your fingerprint, your fingerprint is your invite.
+6 archetypes. 4 dimensions. Your card is your ticket.
+
+By Paul Schraven · [LinkedIn](https://linkedin.com/in/paulschraven) · built to meet other people who point AI at their own workflow.
 
 ## Install
 
 ```bash
-curl -o ~/.claude/commands/recursive.md https://raw.githubusercontent.com/paulschraven/recursive/main/recursive.md
+curl -L -o ~/.claude/commands/recursive.md https://github.com/paulschraven/recursive/releases/latest/download/recursive.md
 ```
 
-Or: download `recursive.md` and drop it in `.claude/commands/`.
+This pulls the latest tagged release (not `main`), so your card is never rendered from a mid-refactor commit. `-L` follows GitHub's redirect from the `/latest/` alias to the current release asset.
+
+**Verify:** open Claude Code and run `/recursive`. You should see the `R E C U R S I V E` banner. Current version is shown in the card footer after you complete the flow.
+
+Or: download `recursive.md` from the [latest release](https://github.com/paulschraven/recursive/releases/latest) and drop it in `~/.claude/commands/`.
 
 ## Run
 
@@ -65,4 +71,10 @@ That's it. Two minutes. You get a card.
 
 Your card includes a Recursive ID and a QR code to apply. **Recursive** is a small, curated WhatsApp group for experienced leaders shaping AI-native organizations one commit at a time: hands-on technical, product, and AI leads. Curated. No lurkers. Every member ships.
 
-To apply: screenshot the card, scan the QR, submit your screenshot + LinkedIn + WhatsApp number. We review every applicant.
+To apply: screenshot the card, click the `Apply:` link (or scan the QR from another device), submit your screenshot + LinkedIn + WhatsApp number. We review every applicant.
+
+## FAQ
+
+- **Card feels wrong?** Re-run `/recursive`, or [DM me on LinkedIn](https://linkedin.com/in/paulschraven).
+- **Didn't hear back?** Applications are reviewed in weekly batches. If it's been >2 weeks, ping me.
+- **Found a bug?** [Open an issue](https://github.com/paulschraven/recursive/issues) or ping on LinkedIn.
