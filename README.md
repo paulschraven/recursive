@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="assets/recursive-logo.svg" alt="recursive" width="240">
+</p>
+
 # /recursive README
 
 > A community for experienced leaders shaping AI-native organizations one commit at a time.
