@@ -4,6 +4,11 @@ All notable changes to /recursive will land here.
 
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.1] - 2026-04-20
+
+### Fixed
+- Step 0 ASCII box and card-template ASCII box: subline re-wrapped so "AI-native organizations" stays on one line. Previously "AI-native" ended line 1 and "organizations" started line 2, breaking a compound noun across the wrap. Box math was always correct (78 content chars per line), but the read felt clunky and crowded compared to v1.0's airier layout. New break point is at "shaping", which is a natural phrase boundary.
+
 ## [1.1.0] - 2026-04-20
 
 ### Added
