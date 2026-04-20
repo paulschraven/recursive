@@ -4,13 +4,13 @@
 
 ## Instructions
 
-A short interactive skill for **experienced builders constructing AI-native organizations** — CPOs, CTOs, CP/TO hybrids, and senior technical builders. Run a quick local scan, ask 4 questions, generate a screenshottable archetype card, route qualified applicants to the Recursive WhatsApp community.
+A short interactive skill for **experienced leaders shaping AI-native organizations one commit at a time** — hands-on technical, product, and AI leads. Run a quick local scan, ask 4 questions, generate a screenshottable archetype card, route qualified applicants to the Recursive WhatsApp community.
 
 **Tone**: Nerdy-confident. Inside-baseball but elegant. The smartest builder at the party who's also the funniest. Genuinely impressed by what people built and slightly concerned about the pace. Affectionate roasting. Closer to math/CS aesthetic than startup-bro. Zero corporate.
 
-**Brand**: Recursive. Tagline: "The function that calls itself." Subline: "A community for experienced builders constructing AI-native organizations." Every output should feel like it comes from this brand. Lowercase wordmark. Monospace. Generous whitespace.
+**Brand**: Recursive. Tagline: "The function that calls itself." Subline: "A community for experienced leaders shaping AI-native organizations one commit at a time." Every output should feel like it comes from this brand. Lowercase wordmark. Monospace. Generous whitespace.
 
-**Audience**: Experienced builders constructing AI-native organizations. CPOs, CTOs, CP/TO hybrids, and senior technical builders. The unifying trait: they've built real things, and they point AI at their own workflow.
+**Audience**: Experienced leaders shaping AI-native organizations one commit at a time. Hands-on technical, product, and AI leads. The unifying trait: they've built real things, and they point AI at their own workflow.
 
 ---
 
@@ -238,7 +238,7 @@ Total = `Q1 + Q2 + Q3` (max 15).
 Walk the ladder in order. First match wins.
 
 1. **The Conductor** — `Q1 ≥ 4 AND Q2 ≥ 4 AND Q3 ≥ 4`
-   > Firing on every cylinder. Personal depth, org adoption, custom builds. The unicorn CP/TO. We're impressed and slightly suspicious.
+   > Firing on every cylinder. Personal depth, org adoption, custom builds. The rare one who leads on all three. We're impressed and slightly suspicious.
 
 2. **The Architect** — `Q3 ≥ 4` (and not Conductor)
    > You don't use tools — you treat them as raw material. Custom agents, MCP servers, infrastructure that writes infrastructure. The cockpit is gorgeous.
@@ -359,15 +359,15 @@ After the card, add (outside the box, plain text):
 ─────────────────────────────────────────────────────────────────────────
 JOIN RECURSIVE
 
-A small, curated WhatsApp group for experienced builders constructing
-AI-native organizations. No lurkers. Every member ships.
+A small, curated WhatsApp group for experienced leaders shaping
+AI-native organizations one commit at a time. No lurkers. Every member ships.
 
 To apply:
   1. Screenshot the card above (Recursive ID = your ticket)
   2. Scan the QR code below — you'll be asked for the screenshot,
      your LinkedIn, and your WhatsApp number (with country code)
-  3. We review every applicant: CP/TOs and experienced technical
-     builders only
+  3. We review every applicant: hands-on technical, product,
+     and AI leads only
   4. If you're in, we add you to the group and introduce you
 ─────────────────────────────────────────────────────────────────────────
 ```

@@ -1,6 +1,6 @@
 # /recursive README
 
-> A community for experienced builders constructing AI-native organizations.
+> A community for experienced leaders shaping AI-native organizations one commit at a time.
 
 A Claude Code skill that scans your `~/.claude/` setup, asks four questions, and gives you a personalized card.
 
@@ -59,6 +59,6 @@ That's it. Two minutes. You get a card.
 
 ## Community
 
-Your card includes a Recursive ID and a QR code to apply. **Recursive** is a small, curated WhatsApp group for experienced builders constructing AI-native organizations: CPOs, CTOs, CP/TO hybrids, and senior technical builders. Curated. No lurkers. Every member ships.
+Your card includes a Recursive ID and a QR code to apply. **Recursive** is a small, curated WhatsApp group for experienced leaders shaping AI-native organizations one commit at a time: hands-on technical, product, and AI leads. Curated. No lurkers. Every member ships.
 
 To apply: screenshot the card, scan the QR, submit your screenshot + LinkedIn + WhatsApp number. We review every applicant.
