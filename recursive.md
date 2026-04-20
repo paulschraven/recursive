@@ -10,21 +10,23 @@ A short interactive skill for **experienced leaders shaping AI-native organizati
 
 **Brand**: Recursive. Tagline: "The function that calls itself." Subline: "A community for experienced leaders shaping AI-native organizations one commit at a time." Every output should feel like it comes from this brand. Lowercase wordmark. Monospace. Generous whitespace.
 
+**Version**: v1.1.0
+
 **Audience**: Experienced leaders shaping AI-native organizations one commit at a time. Hands-on technical, product, and AI leads. The unifying trait: they've built real things, and they point AI at their own workflow.
 
 ---
 
 ### Step 0: Open with the privacy unlock (required first message)
 
-Output exactly this block, then wait for any natural acknowledgement (read the user's reply intelligently — don't require a magic word):
+Output exactly this block, then wait for the user's response:
 
 ```
 ┌──────────────────────────────────────────────────────────────────────────────┐
 │                                                                              │
 │                            R E C U R S I V E                                 │
 │                                                                              │
-│         a community for experienced builders constructing                    │
-│                       AI-native organizations                                │
+│       a community for experienced leaders shaping AI-native                  │
+│             organizations, one commit at a time                              │
 │                                                                              │
 └──────────────────────────────────────────────────────────────────────────────┘
 
@@ -42,7 +44,10 @@ Output exactly this block, then wait for any natural acknowledgement (read the u
    Ready when you are.
 ```
 
-Wait for any affirmative response (yes, ready, ok, let's go, sure, etc.) and proceed. If they have questions or pushback, answer briefly then proceed when ready.
+Parse the response:
+- **Affirmative** (yes / ok / ready / go / sure / let's / lgtm / "let's do it" / "I'm ready" / 👍): proceed to Step 1.
+- **Question or hesitation** ("wait, what does it scan?" / "is this safe?" / "give me a sec"): answer briefly with 1-2 sentences from the privacy block above, then ask "Ready?" and wait again.
+- **Explicit no** ("not now" / "skip" / "cancel" / "no thanks"): say "No problem. Run /recursive anytime." and stop.
 
 ---
 
@@ -56,10 +61,23 @@ Run via Bash:
 SCAN_CLAUDEMD_LINES=$(wc -l < ~/.claude/CLAUDE.md 2>/dev/null | tr -d ' ' || echo 0)
 SCAN_COMMANDS_COUNT=$(ls ~/.claude/commands/*.md 2>/dev/null | wc -l | tr -d ' ')
 SCAN_SKILLS_COUNT=$(ls -d ~/.claude/skills/*/ 2>/dev/null | wc -l | tr -d ' ')
-SCAN_MCPS_COUNT=$(claude mcp list 2>/dev/null | grep -cE ' - [✓!✗]' )
-if [ -z "$SCAN_MCPS_COUNT" ] || [ "$SCAN_MCPS_COUNT" = "0" ]; then
-  SCAN_MCPS_COUNT=$(cat ~/.claude/settings.json ~/.claude.json "$(pwd)/.mcp.json" "$(pwd)/.claude/settings.json" 2>/dev/null | grep -c '"command"' || echo 0)
+
+# MCP scan — trust `claude mcp list` first, fall back to jq-parsing the two
+# canonical config files. Never grep raw JSON for "command" (that counts hooks
+# as MCPs) and never reference $(pwd) paths (cwd at /recursive invocation time
+# is arbitrary and unrelated to the user's config).
+SCAN_MCPS_COUNT=$(claude mcp list 2>/dev/null | grep -cE ' - [✓!✗]' || echo 0)
+if [ "$SCAN_MCPS_COUNT" = "0" ] && command -v jq >/dev/null 2>&1; then
+  SCAN_MCPS_COUNT=$(
+    { jq -r '(.mcpServers // {}) | keys[]' ~/.claude.json 2>/dev/null
+      jq -r '(.mcpServers // {}) | keys[]' ~/.claude/settings.json 2>/dev/null
+    } | sort -u | grep -c . || echo 0
+  )
 fi
+# If both paths failed (claude CLI missing AND jq missing), leave as "?" and
+# let the one-line reaction acknowledge it honestly.
+[ -z "$SCAN_MCPS_COUNT" ] && SCAN_MCPS_COUNT="?"
+
 SCAN_MEMORY_FILES=$(ls ~/.claude/projects/*/memory/*.md 2>/dev/null | wc -l | tr -d ' ')
 SCAN_PROJECTS_COUNT=$(ls -d ~/.claude/projects/*/ 2>/dev/null | wc -l | tr -d ' ')
 ```
@@ -94,6 +112,7 @@ Now four quick questions to fill in the rest.
 - Many projects: `"How many things are you building right now."`
 - Light footprint: `"Lean setup. Either you're early, or you don't waste keystrokes."`
 - Empty: `"Nothing in ~/.claude/ yet. We'll work with what you tell us."`
+- MCP count unknown (`?`): `"MCP scan couldn't read your config — the cockpit is a mystery. Tell us in Q4."`
 
 Don't fabricate. If counts are all low/zero, say so honestly.
 
@@ -127,14 +146,13 @@ How does your org build software today?
   2.  AI drafts portions; engineers refine and integrate
   3.  AI drafts whole features; engineers review and edit before merging
   4.  Agents handle most implementation; engineers review PRs and steer
-  5.  We don't write software anymore — we configure the infrastructure
-      that writes it. Work is triggered by Slack, Linear, cron, webhooks,
-      customer events, anything.
+  5.  Infrastructure writes the software. Work runs from Slack, Linear,
+      cron, webhooks, customer events.
 
 Reply with a number 1–5.
 ```
 
-Store as `Q1` (integer 1–5). If user picks 0 or skips, re-ask once. Don't ask for justification.
+Store as `Q1` (integer 1–5). If the response is empty, out of range, or unparseable, re-ask once. Don't ask for justification.
 
 ---
 
@@ -160,7 +178,7 @@ Who in your organization actually contributes to the product with AI?
 Reply with a number 1–5.
 ```
 
-Store as `Q2`.
+Store as `Q2` (integer 1–5). If the response is empty, out of range, or unparseable, re-ask once.
 
 ---
 
@@ -182,7 +200,7 @@ How do you relate to your stack?
 Reply with a number 1–5.
 ```
 
-Store as `Q3`.
+Store as `Q3` (integer 1–5). If the response is empty, out of range, or unparseable, re-ask once.
 
 ---
 
@@ -200,13 +218,13 @@ Tip: hit dictate (Whisper Flow, Spokenly, your OS voice input) and just
 talk for 60 seconds. Ramble is fine. We'll clean it up for the card.
 ```
 
-Wait for response. Accept any length — short typed answer or long voice transcript. Both are valid.
+Wait for response. Accept any length — short typed answer or long voice transcript. Both are valid. If the response is empty or just punctuation, re-ask once.
 
 Store raw response as `Q4_raw`.
 
 ---
 
-### Step 6: Distill Q4 (silent)
+### Step 6: Distill Q4 and confirm
 
 Process `Q4_raw` into two outputs:
 
@@ -218,6 +236,28 @@ Rules:
 - Keep proper nouns (tool names, company names) exactly as said — flag them in the security loop (Step 10) so user can redact
 - Don't add adjectives they didn't use
 - If the dictation is incoherent, say so honestly: ask one clarifying question
+
+**Confirm the distillation with the user before it goes on the draft card.** The redact loop in Step 10 catches "remove my company name" but not "you misread what I said" — so surface the summary here while it's still cheap to fix.
+
+Output:
+
+```
+Here's what I caught:
+
+  What you're building
+  • {bullet 1}
+  • {bullet 2}
+  • {bullet 3}
+
+  Most excited about
+  → {excited_about}
+
+Nail it, or tell me what I got wrong.
+```
+
+Accept affirmatives ("nailed it" / "good" / "close enough" / "ship" / "yes" / "correct"): lock in and proceed to Step 7.
+
+Accept corrections ("actually it's X" / "drop the second bullet" / "you missed Y" / "that's not quite it — it's..."): revise the bullets and `excited_about`, re-show the "Here's what I caught:" block, ask again. One correction loop max; after that, proceed with the latest version.
 
 ---
 
@@ -250,10 +290,10 @@ Walk the ladder in order. First match wins.
    > Deep personal stack, narrow blast radius. Your own workflow is humming; the team hasn't caught up yet. The next move is obvious.
 
 5. **The Apprentice** — `total ≤ 6` (passes gate, low everywhere)
-   > Early. Hungry. You ran /recursive, which means the instinct is there. Build one thing this week that builds the next thing.
+   > Early, but you showed up on the right night. The instinct to run /recursive is the signal. Build one thing this week that builds the next thing. Forward this to whoever showed you.
 
 6. **The Pragmatist** — fallback, everything else
-   > Solid across the board. No extreme. You ship, you scale, you don't fetishize the stack. Honestly underrated.
+   > Solid across the board. No extreme. You ship, you scale, you don't fetishize the stack. The kind of builder everyone actually wants in the group chat.
 
 ---
 
@@ -263,11 +303,11 @@ Format: `ARCHETYPE-TOTAL-HASH4`
 
 - **ARCHETYPE**: Uppercase short name (CONDUCTOR, ARCHITECT, OPERATOR, TINKERER, APPRENTICE, PRAGMATIST)
 - **TOTAL**: `Q1 + Q2 + Q3`
-- **HASH4**: 4-character alphanumeric, uppercase. Derived from local scan data so the ID is deterministic per setup (same builder + same setup = same hash, like a fingerprint):
+- **HASH4**: 4-character hex vanity suffix. Derived from local scan data so the ID has texture:
   ```bash
   echo "${SCAN_CLAUDEMD_LINES}-${SCAN_COMMANDS_COUNT}-${SCAN_SKILLS_COUNT}-${SCAN_MCPS_COUNT}-${SCAN_MEMORY_FILES}-${SCAN_PROJECTS_COUNT}-$(whoami)" | shasum | cut -c1-4 | tr 'a-z' 'A-Z'
   ```
-  This is the "unfakeable" anchor — the hash can't be generated without actually running the skill against a real local Claude Code setup.
+  The hash changes when the user's setup changes (CLAUDE.md edits, new projects, etc.), so don't promise stability and don't treat it as an anti-abuse token. Applicant review happens on the admin side. The suffix is aesthetic — it makes the ID look like a real identifier, nothing more.
 
 Examples: `ARCHITECT-12-9F2A`, `OPERATOR-11-B83C`, `APPRENTICE-5-A41E`
 
@@ -310,8 +350,8 @@ Card template (fill in real values):
 │                                                                              │
 │                            R E C U R S I V E                                 │
 │                                                                              │
-│         a community for experienced builders constructing                    │
-│                       AI-native organizations                                │
+│       a community for experienced leaders shaping AI-native                  │
+│             organizations, one commit at a time                              │
 │                                                                              │
 ├──────────────────────────────────────────────────────────────────────────────┤
 │                                                                              │
@@ -341,9 +381,11 @@ Card template (fill in real values):
 │   {optional one-line caption — omit if no signal ≥ 3}                        │
 │                                                                              │
 │   Recursive ID: {ARCHETYPE-TOTAL-HASH4}                                      │
-│                                                                              │
+│                                                  recursive {VERSION}         │
 └──────────────────────────────────────────────────────────────────────────────┘
 ```
+
+Substitute `{VERSION}` with the value declared at the top of this skill file (currently `v1.1.0`). Right-align the version line; it's intentionally small so it doesn't compete with the ID.
 
 Bar rendering (20 chars wide, monospace):
 - 0   → `░░░░░░░░░░░░░░░░░░░░`
@@ -372,9 +414,13 @@ To apply:
 ─────────────────────────────────────────────────────────────────────────
 ```
 
-Then **print the QR code** — pre-rendered, baked into this skill. Output the block below verbatim. Do NOT run `qrencode` at runtime; it's already done.
+Then output the apply block — hyperlink first (clickable in most terminals, primary CTA for same-device applicants), QR below as scannable ornament for other-device applicants and Twitter-style screenshots. Output the block below verbatim. Do NOT run `qrencode` at runtime; it's already done.
 
 ```
+Apply: https://tally.so/r/1A2xb1
+
+or scan from another device:
+
 █████████████████████████████
 ██ ▄▄▄▄▄ █   █▄▄▀▄ █ ▄▄▄▄▄ ██
 ██ █   █ █ ▀▄ █▀██▀█ █   █ ██
@@ -390,11 +436,9 @@ Then **print the QR code** — pre-rendered, baked into this skill. Output the b
 ██ █▄▄▄█ █▀▀▀▄███▄█▄ ▀▀ ▀ ███
 ██▄▄▄▄▄▄▄█▄███▄██▄██▄███▄▄▄██
 █████████████████████████████
-
-Apply directly: https://tally.so/r/1A2xb1
 ```
 
-The QR sits directly under the join footer so it's captured in the same screenshot as the card. The form at `https://tally.so/r/1A2xb1` collects: screenshot upload, Recursive ID, LinkedIn URL, WhatsApp number with country code. Admin reviews → adds to WhatsApp → intros.
+The apply line sits directly under the join footer so the URL is the first thing a same-device applicant sees. The QR is captured in the same screenshot as the card for Twitter-style sharing. The form at `https://tally.so/r/1A2xb1` collects: screenshot upload, Recursive ID, LinkedIn URL, WhatsApp number with country code. Admin reviews → adds to WhatsApp → intros.
 
 > **Maintainer setup (done — update only if the form URL ever changes):**
 >
