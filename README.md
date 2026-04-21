@@ -12,6 +12,10 @@ A Claude Code skill that scans your `~/.claude/` setup, asks four questions, and
 
 By Paul Schraven · [LinkedIn](https://linkedin.com/in/paulschraven) · built to meet other people who point AI at their own workflow.
 
+<p align="center">
+  <img src="assets/sample-card.png" alt="Sample Recursive card output" width="720">
+</p>
+
 ## Install
 
 ```bash
