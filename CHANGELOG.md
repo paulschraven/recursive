@@ -4,6 +4,11 @@ All notable changes to /recursive will land here.
 
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.3] - 2026-04-21
+
+### Changed
+- Pinned skill to Claude Sonnet 4.6 via frontmatter (`model: claude-sonnet-4-6`). Q4 voice-to-bullets distillation requires nuance; Sonnet is 2-3x faster than Opus while preserving quality. Skill now completes in ~45 seconds instead of 2+ minutes.
+
 ## [1.1.2] - 2026-04-21
 
 ### Fixed

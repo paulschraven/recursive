@@ -1,3 +1,7 @@
+---
+model: claude-sonnet-4-6
+---
+
 # Recursive
 
 > The function that calls itself.
@@ -10,7 +14,7 @@ A short interactive skill for **experienced leaders shaping AI-native organizati
 
 **Brand**: Recursive. Tagline: "The function that calls itself." Subline: "A community for experienced leaders shaping AI-native organizations one commit at a time." Every output should feel like it comes from this brand. Lowercase wordmark. Monospace. Generous whitespace.
 
-**Version**: v1.1.2
+**Version**: v1.1.3
 
 **Audience**: Experienced leaders shaping AI-native organizations one commit at a time. Hands-on technical, product, and AI leads. The unifying trait: they've built real things, and they point AI at their own workflow.
 
@@ -385,7 +389,7 @@ Card template (fill in real values):
 └──────────────────────────────────────────────────────────────────────────────┘
 ```
 
-Substitute `{VERSION}` with the value declared at the top of this skill file (currently `v1.1.2`). Right-align the version line; it's intentionally small so it doesn't compete with the ID.
+Substitute `{VERSION}` with the value declared at the top of this skill file (currently `v1.1.3`). Right-align the version line; it's intentionally small so it doesn't compete with the ID.
 
 Bar rendering (20 chars wide, monospace):
 - 0   → `░░░░░░░░░░░░░░░░░░░░`
