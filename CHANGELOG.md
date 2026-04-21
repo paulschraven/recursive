@@ -4,6 +4,11 @@ All notable changes to /recursive will land here.
 
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.2] - 2026-04-21
+
+### Fixed
+- Step 0 ASCII box and card-template ASCII box: the "a community for experienced leaders shaping" line was one space short of the 78-char interior width, so the right `│` border landed one column left and dropped out of alignment with the rest of the box in some terminals. Added the missing trailing space to both boxes. v1.1.1 fixed the wrap; this fixes the width.
+
 ## [1.1.1] - 2026-04-20
 
 ### Fixed
